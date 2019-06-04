@@ -1,11 +1,13 @@
 #include <GL/glut.h>
+#include <stdio.h>
 
 static int year = 0, day = 0;
 GLfloat xRotaciona, yRotaciona, zRotaciona;
 int tempo = 100;
 
 //variavel para atrair os planetas
-float gravidade = 5.0;
+float gravidade = 3.0;
+float atracao = 0.0;
 
 void init(void) {
 	glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -19,20 +21,32 @@ void reshape(int w, int h){
 	gluPerspective(60.0, (GLfloat) w/(GLfloat) h, 1.0, 20.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt (0.0, 5.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt (0.0, 9.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 }
+
+float atracao(float gravidade){
+	while (gravidade >= 0.0){
+	float gravidade = gravidade - 0.5;
+	printf("%.2f\n", gravidade);
+
+//	printf("%.3f / %.3f = %.3f \n", a,b,a/b);
+	return gravidade;
+	}		
+}
+
 
 void display(void){
 	glClear(GL_COLOR_BUFFER_BIT);
 	glPushMatrix();
 
+	
 	//Planeta amarelo
 	glPushMatrix();
 		glColor3f(1.0, 1.0, 0.0);
-		glRotatef((GLfloat) year, 0.0, 1.0, 0.0);
-		glTranslatef(gravidade, 0.0, 0.0);
+		glRotatef((GLfloat) year, 0.0, 5.0, 0.0);
+		glTranslatef(atracao(gravidade), 0.0, 0.0);
 		glRotatef((GLfloat) day, 0.0, 1.0, 0.0);
-		glutSolidSphere(1.0, 15, 8);
+		glutWireSphere(1.0, 15, 8);
 	glPopMatrix();
 	 	 	
 	//Planeta azul
@@ -40,9 +54,9 @@ void display(void){
 		//glColor3f(1.0, 0.27, 0.0);
 		glColor3f(0.28, 0.24, 0.55);
 		glRotatef((GLfloat) -year * 2, 0.0, 5.0, 0.0);
-		glTranslatef(gravidade, 0.0, 0.0);
+		glTranslatef(atracao(gravidade), 0.0, 0.0);
 		glRotatef((GLfloat) day, 0.0, 2.0, 0.0);
-		glutSolidSphere(1.0, 15, 8);
+		glutWireSphere(1.0, 15, 8);
 	glPopMatrix();
 
  	glPopMatrix();
@@ -72,13 +86,3 @@ void main(int argc, char** argv){
 
 	glutMainLoop();
 }
-
-
-/*
-glutTimerFunc(33, Timer, 1); 
-estabelece a função Timer previamente definida como a função callback de animação. 
-Seu protótipo é: void glutTimerFunc(unsigned int msecs, void (*func)(int value), int value);. 
-Esta função faz a GLUT esperar msecs milisegundos antes de chamar a função func. 
-É possível passar um valor definido pelo usuário no parâmetro value. 
-Como esta função é "disparada" apenas uma vez, para se ter uma animação contínua é necessário reinicializar o timer novamente na função Timer.
-*/
