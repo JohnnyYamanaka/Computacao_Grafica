@@ -24,7 +24,7 @@ void reshape(int w, int h){
 	gluLookAt (0.0, 9.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 }
 
-float atracao(float gravidade){
+float atrair(float gravidade){
 	while (gravidade >= 0.0){
 	float gravidade = gravidade - 0.5;
 	printf("%.2f\n", gravidade);
@@ -44,7 +44,7 @@ void display(void){
 	glPushMatrix();
 		glColor3f(1.0, 1.0, 0.0);
 		glRotatef((GLfloat) year, 0.0, 5.0, 0.0);
-		glTranslatef(atracao(gravidade), 0.0, 0.0);
+		glTranslatef(atrair(gravidade), 0.0, 0.0);
 		glRotatef((GLfloat) day, 0.0, 1.0, 0.0);
 		glutWireSphere(1.0, 15, 8);
 	glPopMatrix();
@@ -54,7 +54,7 @@ void display(void){
 		//glColor3f(1.0, 0.27, 0.0);
 		glColor3f(0.28, 0.24, 0.55);
 		glRotatef((GLfloat) -year * 2, 0.0, 5.0, 0.0);
-		glTranslatef(atracao(gravidade), 0.0, 0.0);
+		glTranslatef(atrair(gravidade), 0.0, 0.0);
 		glRotatef((GLfloat) day, 0.0, 2.0, 0.0);
 		glutWireSphere(1.0, 15, 8);
 	glPopMatrix();
